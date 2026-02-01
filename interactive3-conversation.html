@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  #chart {
+    width: 100%;
+    height: 100%;
+  }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: transparent;
+            color: #2a2a2a;
+        }
+        .interactive {
+            background: white;
+            border: 1px solid #e5e3df;
+            border-radius: 3px;
+            padding: 40px 32px;
+        }
+        .conversation-toggle {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .toggle-option {
+            flex: 1;
+            padding: 14px 20px;
+            background: white;
+            border: 1px solid #d4cfc5;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        .toggle-option:hover {
+            border-color: #8b7355;
+        }
+        .toggle-option.active {
+            background: #2a2a2a;
+            color: white;
+            border-color: #2a2a2a;
+        }
+        .conversation-display {
+            background: #fafaf8;
+            border: 1px solid #e5e3df;
+            padding: 28px;
+            margin: 20px 0;
+            min-height: 140px;
+        }
+        .conversation-line {
+            margin: 14px 0;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .conversation-line.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .speaker {
+            font-weight: 600;
+            color: #8b7355;
+        }
+    </style>
+</head>
+<body>
+    <div class="interactive">
+        <p style="margin-bottom: 24px;">Your team is discussing whether to add a new feature. The quality of conversation changes entirely based on clarity about who owns the choice.</p>
+
+        <div class="conversation-toggle">
+            <div class="toggle-option active" id="clearBtn">Leadership is Clear</div>
+            <div class="toggle-option" id="sharedBtn">Decision is Shared</div>
+        </div>
+
+        <div class="conversation-display" id="conversationBox">
+            <div class="conversation-line" id="line1"></div>
+            <div class="conversation-line" id="line2"></div>
+            <div class="conversation-line" id="line3"></div>
+            <div class="conversation-line" id="line4"></div>
+        </div>
+    </div>
+
+    <script>
+        const clearBtn = document.getElementById('clearBtn');
+        const sharedBtn = document.getElementById('sharedBtn');
+        const lines = [
+            document.getElementById('line1'),
+            document.getElementById('line2'),
+            document.getElementById('line3'),
+            document.getElementById('line4')
+        ];
+
+        const clearConversation = [
+            '<span class="speaker">Sarah:</span> I think we should add this feature. Solves the workflow problem.',
+            '<span class="speaker">Marcus:</span> What about edge cases with power users?',
+            '<span class="speaker">Sarah:</span> Good point. Let me prototype both and decide.',
+            '<span class="speaker">Result:</span> Clear ownership. Fast iteration. Decision happens.'
+        ];
+
+        const sharedConversation = [
+            '<span class="speaker">Sarah:</span> Should we add this feature? What does everyone think?',
+            '<span class="speaker">Marcus:</span> Not sure. Maybe form a working group first?',
+            '<span class="speaker">Dev team:</span> Need to align with engineering roadmap. Few sprints.',
+            '<span class="speaker">Result:</span> No ownership. Negotiation starts. Decision deferred.'
+        ];
+
+        function showConversation(conversation) {
+            lines.forEach(line => line.classList.remove('show'));
+            
+            setTimeout(() => {
+                lines.forEach((line, i) => {
+                    setTimeout(() => {
+                        line.innerHTML = conversation[i];
+                        line.classList.add('show');
+                    }, i * 350);
+                });
+            }, 50);
+        }
+
+        clearBtn.addEventListener('click', () => {
+            clearBtn.classList.add('active');
+            sharedBtn.classList.remove('active');
+            showConversation(clearConversation);
+        });
+
+        sharedBtn.addEventListener('click', () => {
+            sharedBtn.classList.add('active');
+            clearBtn.classList.remove('active');
+            showConversation(sharedConversation);
+        });
+
+        showConversation(clearConversation);
+    </script>
+</body>
+</html>
