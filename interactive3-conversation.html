@@ -9,22 +9,27 @@
             padding: 0;
             box-sizing: border-box;
         }
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;    /* Changed */
-}
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: transparent;
             color: #2a2a2a;
+        }
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         .interactive {
             background: white;
             border: 1px solid #e5e3df;
             border-radius: 3px;
             padding: 40px 32px;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            min-height: 0;
         }
         .conversation-toggle {
             display: flex;
@@ -76,6 +81,7 @@
     </style>
 </head>
 <body>
+    <div class="container">
     <div class="interactive">
         <p style="margin-bottom: 24px;">Your team is discussing whether to add a new feature. The quality of conversation changes entirely based on clarity about who owns the choice.</p>
 
@@ -90,6 +96,7 @@
             <div class="conversation-line" id="line3"></div>
             <div class="conversation-line" id="line4"></div>
         </div>
+    </div>
     </div>
 
     <script>
