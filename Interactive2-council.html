@@ -10,21 +10,25 @@
             box-sizing: border-box;
         }
         html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-        body {
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: transparent;
             color: #2a2a2a;
+        }
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         .interactive {
             background: white;
             border: 1px solid #e5e3df;
             border-radius: 3px;
             padding: 40px 32px;
-            margin-bottom: 32px;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         .observation {
             background: #f5f4f0;
@@ -33,6 +37,7 @@
             font-size: 1.05rem;
             line-height: 1.6;
             transition: all 0.3s;
+            flex-shrink: 0;
         }
         .observation.highlight {
             background: #ebe9e3;
@@ -96,7 +101,8 @@
     </style>
 </head>
 <body>
-    <div class="interactive">
+    <div class="container">
+        <div class="interactive">
         <p style="margin-bottom: 24px;"><strong>Scenario:</strong> Your team wants to constantly adjust pricing. You think this creates chaos. What do you do?</p>
 
         <button class="action-btn" id="justDecide">Just Decide</button>
@@ -109,6 +115,7 @@
 
     <div class="observation" id="councilText">
         Choose an approach.
+    </div>
     </div>
 
     <script>
@@ -177,9 +184,9 @@
             createCouncil.disabled = false;
             resetTimeline.style.display = 'none';
         });
-    
-
     </script>
-    
+</body>
+</html>
+    </script>
 </body>
 </html>
