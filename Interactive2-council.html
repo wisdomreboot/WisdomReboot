@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: transparent;
+            color: #2a2a2a;
+        }
+        .interactive {
+            background: white;
+            border: 1px solid #e5e3df;
+            border-radius: 3px;
+            padding: 40px 32px;
+            margin-bottom: 32px;
+        }
+        .observation {
+            background: #f5f4f0;
+            border-left: 3px solid #8b7355;
+            padding: 24px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            transition: all 0.3s;
+        }
+        .observation.highlight {
+            background: #ebe9e3;
+        }
+        .action-btn {
+            display: inline-block;
+            background: #2a2a2a;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 14px 28px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 8px 8px 8px 0;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        .action-btn:hover {
+            background: #1a1a1a;
+        }
+        .action-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .action-btn.secondary {
+            background: white;
+            color: #2a2a2a;
+            border: 1px solid #d4cfc5;
+        }
+        .action-btn.secondary:hover {
+            border-color: #8b7355;
+            background: #fafaf8;
+        }
+        .timeline {
+            margin: 32px 0;
+        }
+        .timeline-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e3df;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s;
+        }
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        .timeline-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-week {
+            font-weight: 600;
+            color: #8b7355;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+        .timeline-text {
+            color: #4a4a4a;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="interactive">
+        <p style="margin-bottom: 24px;"><strong>Scenario:</strong> Your team wants to constantly adjust pricing. You think this creates chaos. What do you do?</p>
+
+        <button class="action-btn" id="justDecide">Just Decide</button>
+        <button class="action-btn secondary" id="createCouncil">Create Pricing Council</button>
+
+        <div class="timeline" id="timeline"></div>
+
+        <button class="action-btn" id="resetTimeline" style="display: none;">Reset</button>
+    </div>
+
+    <div class="observation" id="councilText">
+        Choose an approach.
+    </div>
+
+    <script>
+        const justDecide = document.getElementById('justDecide');
+        const createCouncil = document.getElementById('createCouncil');
+        const timeline = document.getElementById('timeline');
+        const councilText = document.getElementById('councilText');
+        const resetTimeline = document.getElementById('resetTimeline');
+
+        const decisionEvents = [
+            { week: "Day 1", text: "Decision made. Done. Team moves on." }
+        ];
+
+        const councilEvents = [
+            { week: "Week 1", text: "Council formed. First meeting scheduled." },
+            { week: "Week 2", text: "Council requests more data on customer segments." },
+            { week: "Week 3", text: "Data gathered. Analysis shows mixed signals." },
+            { week: "Week 4", text: "Council requests competitor research." },
+            { week: "Week 5", text: "Facilitator brought in to align perspectives." },
+            { week: "Week 6", text: "Key member on vacation. Meeting postponed." },
+            { week: "Week 7", text: "Cannot reach consensus. Agree to revisit next quarter." },
+            { week: "Week 8", text: "Decision successfully prevented." }
+        ];
+
+        function showTimeline(events, delay) {
+            timeline.innerHTML = '';
+            events.forEach((event, i) => {
+                const div = document.createElement('div');
+                div.className = 'timeline-item';
+                div.innerHTML = `<div class="timeline-week">${event.week}</div><div class="timeline-text">${event.text}</div>`;
+                timeline.appendChild(div);
+                
+                setTimeout(() => div.classList.add('show'), i * delay);
+            });
+
+            setTimeout(() => {
+                resetTimeline.style.display = 'inline-block';
+            }, events.length * delay + 300);
+        }
+
+        justDecide.addEventListener('click', () => {
+            justDecide.disabled = true;
+            createCouncil.disabled = true;
+            councilText.innerHTML = "Fast. Clear. Done. One person owned it. Maybe it's wrong. But you'll find out quickly.";
+            councilText.className = 'observation highlight';
+            showTimeline(decisionEvents, 400);
+        });
+
+        createCouncil.addEventListener('click', () => {
+            justDecide.disabled = true;
+            createCouncil.disabled = true;
+            councilText.innerHTML = "Watch this.";
+            showTimeline(councilEvents, 700);
+            
+            setTimeout(() => {
+                councilText.innerHTML = "Eight weeks. No decision. This is weaponized consensus. Use it when you want to slow something down without saying no.";
+                councilText.className = 'observation highlight';
+            }, councilEvents.length * 700 + 300);
+        });
+
+        resetTimeline.addEventListener('click', () => {
+            timeline.innerHTML = '';
+            councilText.innerHTML = 'Choose an approach.';
+            councilText.className = 'observation';
+            justDecide.disabled = false;
+            createCouncil.disabled = false;
+            resetTimeline.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
