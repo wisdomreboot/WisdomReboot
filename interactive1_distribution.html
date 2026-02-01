@@ -9,25 +9,27 @@
             padding: 0;
             box-sizing: border-box;
         }
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: transparent;
             color: #2a2a2a;
         }
-        html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;    /* Changed */
-}
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
         .observation {
             background: #f5f4f0;
             border-left: 3px solid #8b7355;
             padding: 24px;
-            margin: 0 0 32px 0;
+            margin: 0 0 20px 0;
             font-size: 1.05rem;
             line-height: 1.6;
             transition: all 0.3s;
+            flex-shrink: 0;
         }
         .observation.highlight {
             background: #ebe9e3;
@@ -37,6 +39,10 @@
             border: 1px solid #e5e3df;
             border-radius: 3px;
             padding: 40px 32px;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            min-height: 0;
         }
         .instruction {
             font-size: 0.95rem;
@@ -167,6 +173,7 @@
     </style>
 </head>
 <body>
+    <div class="container">
     <div class="observation" id="outcomeText">
         When everyone must agree, everything clusters around 6 out of 10. Safe. Predictable. Never excellent.
     </div>
@@ -207,6 +214,7 @@
                 <span class="stat-label">Excellent (9-10)</span>
             </div>
         </div>
+    </div>
     </div>
 
     <script>
