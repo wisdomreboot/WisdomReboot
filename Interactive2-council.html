@@ -178,6 +178,25 @@
             createCouncil.disabled = false;
             resetTimeline.style.display = 'none';
         });
+        // Send height to parent
+function sendHeight() {
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({
+        frameHeight: height,
+        frameId: window.location.pathname
+    }, '*');
+}
+
+// Send initial height and on resize
+sendHeight();
+window.addEventListener('resize', sendHeight);
+
+// For Interactive 2 specifically, send height after timeline animation
+if (typeof timeline !== 'undefined') {
+    const observer = new MutationObserver(sendHeight);
+    observer.observe(timeline, { childList: true, subtree: true });
+}
     </script>
+    
 </body>
 </html>
